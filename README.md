@@ -7,3 +7,12 @@ dnmp开发环境
 6.redis目前支持4.0版本
 7.每个服务配置文和数据目前均已映射到host
 8.web root目前支持自定义，只需要到docker-compose.yml做调整
+
+
+使用方法:
+1.进入dnmp目录执行 sudo docker-compose up -d
+2.配置host,将host替换成对方自己的
+    127.0.0.1 www.site1.com
+    127.0.0.1 www.site2.com
+3.浏览器访问 http://www.site1.com, 使用php5.6环境
+  浏览器访问 https://www.site2.com, 使用php7.2环境
