@@ -1,0 +1,89 @@
+version: "3"
+services:
+  nginx1.14:
+    image: nginx:alpine
+    container_name: dnmp-nginx
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./www/:/var/www/html/:rw
+      - ./nginx/1.14/conf/conf.d:/etc/nginx/conf.d/:ro
+      - ./nginx/1.14/conf/nginx.conf:/etc/nginx/nginx.conf:ro
+      - ./nginx/1.14/log/:/var/log/dnmp/:rw
+    networks:
+      - net-php
+
+  php7.2:
+    build: ./php/7.2/docker/
+    container_name: dnmp-php7.2
+    expose:
+      - "9000"
+    volumes:
+      - ./www/:/var/www/html/:rw
+      - ./php/7.2/conf/php.ini:/usr/local/etc/php/php.ini:ro
+      - ./php/7.2/conf/php-fpm.d/www.conf:/usr/local/etc/php-fpm.d/www.conf:rw
+      - ./php/7.2/log/:/var/log/dnmp/:rw
+    networks:
+      - net-php
+      - net-mysql
+      - net-redis
+
+  php5.6:
+      build: ./php/5.6/docker/
+      container_name: dnmp-php5.6
+      expose:
+        - "9000"
+      volumes:
+        - ./www/:/var/www/html/:rw
+        - ./php/5.6/conf/php.ini:/usr/local/etc/php/php.ini:ro
+        - ./php/5.6/conf/php-fpm.d/www.conf:/usr/local/etc/php-fpm.d/www.conf:rw
+        - ./php/5.6/log/:/var/log/dnmp/:rw
+      networks:
+        - net-php
+        - net-mysql
+        - net-redis
+
+  mysql8.0:
+    image: mysql:8.0
+    container_name: dnmp-mysql8.0
+    ports:
+      - "3306:3306"
+    volumes:
+      - ./mysql/8.0/conf/my.cnf:/etc/mysql/my.cnf:ro
+      - ./mysql/8.0/data/:/var/lib/mysql/:rw
+      - ./mysql/8.0/log/:/var/log/dnmp/:rw
+    networks:
+      - net-mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: "123456"
+
+  mysql5.7:
+      image: mysql:5.7
+      container_name: dnmp-mysql5.7
+      ports:
+        - "3307:3306"
+      volumes:
+        - ./mysql/5.7/conf/my.cnf:/etc/mysql/my.cnf:ro
+        - ./mysql/5.7/data/:/var/lib/mysql/:rw
+        - ./mysql/5.7/log/:/var/log/dnmp/:rw
+      networks:
+        - net-mysql
+      environment:
+        MYSQL_ROOT_PASSWORD: "123456"
+
+  redis4.0:
+    build: ./redis/4.0/docker/
+    container_name: dnmp-redis4.0
+    volumes:
+          - ./redis/4.0/data:/data:rw
+          - ./redis/4.0/conf/redis.conf:/usr/local/etc/redis/redis.conf:ro
+    networks:
+      - net-redis
+    ports:
+      - "6379:6379"
+
+networks:
+  net-php:
+  net-mysql:
+  net-redis:

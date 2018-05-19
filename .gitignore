@@ -1,0 +1,43 @@
+
+#project data files
+/mysql/5.7/data/*
+/mysql/8.0/data/*
+/nginx/1.14/log/*
+/php/5.4/log/*
+/php/5.6/log/*
+/php/7.2/log/*
+/redis/4.0/data/*
+
+# phpstorm project files
+.idea
+
+# phpstorm project files
+.idea
+
+# netbeans project files
+nbproject
+
+# zend studio for eclipse project files
+.buildpath
+.project
+.settings
+
+# windows thumbnail cache
+Thumbs.db
+
+# composer vendor dir
+/vendor
+
+# composer itself is not needed
+composer.phar
+
+# Mac DS_Store Files
+.DS_Store
+
+# phpunit itself is not needed
+phpunit.phar
+# local phpunit config
+/phpunit.xml
+
+# vagrant runtime
+/.vagrant
